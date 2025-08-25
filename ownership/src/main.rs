@@ -37,7 +37,7 @@ fn main() {
     let s2 = takes_and_gives_back(s.clone());
     println!("s is {} so as s2 {}", s.clone(), s2.clone());
 
-    s = String::from("Hello world");
+    s = String::from("Hello");
 
     // so how can we get s back s? lets return two values, but that's inconvinent...
     let (s1, len) = calculate_length(s.clone());
@@ -46,12 +46,75 @@ fn main() {
     // luckily we have References: & which is kind of a pointer in C
     // you use it both in function params and argument
     ref_calculate_length(&s1);
-    println!("See variable s1 is still here and is: {}", s1)
+    println!("See variable s1 is still here and is: {}", s1);
     // trying to modify s1 wont work because is not mutable, nor is the func is made for mutable references
+    // so lets work with mut
+
+    let mut s = String::from("Hello");
+    change(&mut s);
+    println!("I added world: {}", s);
+
+    // now two immutable sequences, which will go out of scope after the print
+    let r1 = &s; // no problem
+    let r2 = &s; // no problem
+    println!("{} and {}", r1, r2);
+    // variables r1 and r2 will not be used after this point
+    let r3 = &mut s; // no problem
+    println!("{}", r3);
+
+    // pointers can get lost
+    // in Rust, by contrast, the compiler guarantees that references will never be dangling references:
+    // if you have a reference to some data, the compiler will ensure that the data will not go out of scope
+    // before the reference to the data does.
+
+    let word = first_word(&s);
+    println!("word from '{}' is {}", s, word);
+
+    println!("len of s is {}", s.len());
+
+    // slice
+    let hello = &s[0..6];
+    let word = &s[7..12];
+    let helloword: &str = &s[..s.len()];
+    println!("{}\n{}\n{}\n", hello, word, helloword);
+
+    // lets try to clean s, that would create a dangling pointer for word
+    // because word is a slice (a pointer with length) on the no longer existing string
+    // rust will understand that and throw a compile error if trying to use word
+    s.clear();
+    // println!("This print causes immutable borrow later used {}", word)
+    // this happens because s was unreferenced and is out of context
+
+    // now that we better know slices, lets work with them, s is a slice type referring precisely to this point
+    let s = "Hello, world!";
+    // we can then imrove first_word by specifying that type
+    // If we have a String , we can pass a slice of the String or a reference to the String.
+    // This flexibility takes advantage of deref coercions
+    let a = [1, 2, 3, 4, 5];
+    let slice = &a[1..3];
+    assert_eq!(slice, &[2, 3]);
+
+    // so str is a reference, whereas String is owned
+}
+
+// slices
+fn first_word(s: &str) -> &str {
+    let bytes: &[u8] = s.as_bytes();
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return &s[0..i];
+        }
+    }
+    &s[..]
 }
 
 fn gives_ownership() -> String {
     let some_string = String::from("yours");
+    some_string
+}
+
+fn give_hellos() -> String {
+    let some_string = String::from("Hello");
     some_string
 }
 

@@ -2,3 +2,27 @@
 **.lock
 The\ Rust\ Programming\ Language.pdf
 .DS_Store
+.vscode
+.idea
+*.iml
+*.log
+*.tmp
+*.out
+*.class
+*.swp
+*.swo
+*.bak
+*.old
+*.orig
+*.rej
+*.exe
+*.dll
+*.so
+*.dylib
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+main
+**/main
+target/

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+scriptdir="$(basename "$PWD")/$(basename "$0")"
+echo "script launched from: $(echo $scriptdir)"
+if [[ $scriptdir == "rust/del-projects-binaries" ]]; then
+  deleted="$(find . -type d -name target -exec rm -rf {} + -print)"
+  if [[ -n "$deleted" ]]; then
+    echo "Deleted the following 'target' folders:"
+    echo "$deleted"
+  fi
+else
+  echo "Error: This script must be run from the 'rust' directory within this project."
+  exit 1
+fi
+echo "All Rust 'target' folders have been deleted."

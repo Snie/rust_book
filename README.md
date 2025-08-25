@@ -40,3 +40,8 @@ The **default package index is** [crates.io](https://crates.io/).
 Rust tools such as `rustfmt` are distributed as components, they can be installed via `rustup`.
 You can add components to your toolchain using `rustup component add <component-name>`.  
 For example, to enable automatic code formatting, install the `rustfmt` component as shown above.
+
+## Utility in this repo
+| Command                      | Description                        |
+|------------------------------|------------------------------------|
+| `del-projects-binaries` | This bash script deletes all `target` folders in the current directory and its subdirectories|

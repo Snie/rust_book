@@ -1,0 +1,11 @@
+version: 2
+updates:
+  - package-ecosystem: "cargo"
+    directories: "/**/Cargo.toml"
+    schedule:
+      interval: "monthly"
+    exclude-paths:
+      - "src/test/assets"
+      - "vendor/**"
+      - "src/*.js"
+      - "src/test/helper.js"
